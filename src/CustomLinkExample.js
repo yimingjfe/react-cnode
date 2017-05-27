@@ -13,9 +13,9 @@ const Topics = ({ match }) => (
   <div className="topics">
     <h3>Topics</h3>
     <ul>
-      <li><ActiveRouteLink to={`${match.url}/rendering`} activeOnlyWhenExact={true}>Rendering with React</ActiveRouteLink></li>
-      <li><ActiveRouteLink to={`${match.url}/components`} activeOnlyWhenExact={true}>Components</ActiveRouteLink></li>
-      <li><ActiveRouteLink to={`${match.url}/props`} activeOnlyWhenExact={true}>Props v. State</ActiveRouteLink></li>
+      <li><ActiveRouteLink to={`${match.url}/rendering`} >Rendering with React</ActiveRouteLink></li>
+      <li><ActiveRouteLink to={`${match.url}/components`}>Components</ActiveRouteLink></li>
+      <li><ActiveRouteLink to={`${match.url}/props`}>Props v. State</ActiveRouteLink></li>
     </ul>
 
     <Route exact path={match.url} render={() => (
@@ -33,9 +33,9 @@ const Topic = ( { match } ) => (
 const CustomLinkExample = () => (
   <Router>
     <div>
-      <ActiveRouteLink activeOnlyWhenExact={true} to="/">Home</ActiveRouteLink>
+      <ActiveRouteLink to="/" activeOnlyWhenExact={true}>Home</ActiveRouteLink>
       <ActiveRouteLink to="/about">About</ActiveRouteLink>
-      <ActiveRouteLink to="/topics" activeOnlyWhenExact={true}>Topics</ActiveRouteLink>
+      <ActiveRouteLink to="/topics">Topics</ActiveRouteLink>
       <hr/>
       <Route exact path="/" component={Home}/>
       <Route path="/about" component={About}/>
@@ -44,16 +44,6 @@ const CustomLinkExample = () => (
   </Router>
 )
 
-const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
-  <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => {
-    console.log(match)
-    return (
-      <div className={match ? 'active' : ''}>
-        {match ? '> ' : ''}<Link to={to}>{label}</Link>
-      </div>
-    )
-  }}/>
-)
 //写一个可以自动活跃的Link,最好支持多层嵌套
 const ActiveRouteLink = ({ to, activeOnlyWhenExact, label, children }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => {
@@ -62,7 +52,6 @@ const ActiveRouteLink = ({ to, activeOnlyWhenExact, label, children }) => (
         {match ? '> ' : ''}<Link to={to}>{children}</Link>
       </div>
     )
-
   }}/>
 )
 
