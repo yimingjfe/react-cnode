@@ -24,19 +24,47 @@ const Topic = ( { match } ) => (
   <h2>{match.params.topicId}</h2>
 )
 
+// const Topics = ({ match }) => (
+//   <div>
+//     <h2>Topics</h2>
+//     <ul>
+//       <li>
+//         <Link to={`${match.url}/rendering`}>
+//           Rendering with React
+//         </Link>
+//       </li>
+//       <li>
+//         <Link to={`${match.url}/components`}>
+//           Components
+//         </Link>
+//       </li>
+//       <li>
+//         <Link to={`${match.url}/props-v-state`}>
+//           Props v. State
+//         </Link>
+//       </li>
+//     </ul>
+//
+//     <Route path={`${match.url}/:topicId`} component={Topic}/>
+//     <Route exact path={match.url} render={() => (
+//       <h3>Please select a topic.</h3>
+//     )}/>
+//   </div>
+// )
+
 const TopicList = ({ match }) => (
   <div className="topic-list">
     <h3>Topics</h3>
     <ul>
-      <li><Link to="{match.url}/rendering">Rendering with React</Link></li>
-      <li><Link to="{match.url}/components">Components</Link></li>
-      <li><Link to="{match.url}/props">Props v. State</Link></li>
+      <li><Link to={`${match.url}/rendering`}>Rendering with React</Link></li>
+      <li><Link to={`${match.url}/components`}>Components</Link></li>
+      <li><Link to={`${match.url}/props`}>Props v. State</Link></li>
     </ul>
 
-    <Route exact>
+    <Route exact path={match.url}>
       <h4>please select a topic</h4>
     </Route>
-    <Route path="{match.url}/:topicList" component={Topic}/>
+    <Route path={`${match.url}/:topicId`} component={Topic}/>
   </div>
 )
 
@@ -51,7 +79,7 @@ const BasicExample = () => (
 
       <Route exact path="/" component={Home}/>
       <Route path="/about" component={About}/>
-      <Route path="/topic" component={TopicList}/>
+      <Route path="/topic-list" component={TopicList}/>
     </div>
   </Router>
 )
