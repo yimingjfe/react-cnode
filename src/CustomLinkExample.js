@@ -9,13 +9,20 @@ import {
 } from 'react-router-dom'
 
 
+function getLocation(match, label){
+  return {
+    pathname: `${match.url}/${label}`,
+    breadcrumbName: `Topics/${label}`
+  }
+}
+
 const Topics = ({ match }) => (
   <div className="topics">
     <h3>Topics</h3>
     <ul>
-      <li><ActiveRouteLink to={`${match.url}/rendering`} >Rendering with React</ActiveRouteLink></li>
-      <li><ActiveRouteLink to={`${match.url}/components`}>Components</ActiveRouteLink></li>
-      <li><ActiveRouteLink to={`${match.url}/props`}>Props v. State</ActiveRouteLink></li>
+      <li><ActiveRouteLink to={getLocation(match, 'rendering')} >Rendering with React</ActiveRouteLink></li>
+      <li><ActiveRouteLink to={getLocation(match, 'components')}>Components</ActiveRouteLink></li>
+      <li><ActiveRouteLink to={getLocation(match, 'props')}>Props v. State</ActiveRouteLink></li>
     </ul>
 
     <Route exact path={match.url} render={() => (
@@ -26,9 +33,12 @@ const Topics = ({ match }) => (
   </div>
 )
 
-const Topic = ( { match } ) => (
-  <h2>{match.params.topicId}</h2>
-)
+const Topic = ( props ) => {
+ console.log(props);
+ return (
+   <h2>{props.match.params.topicId}</h2>
+ )
+}
 
 const CustomLinkExample = () => (
   <Router>
@@ -37,9 +47,9 @@ const CustomLinkExample = () => (
       <ActiveRouteLink to="/about">About</ActiveRouteLink>
       <ActiveRouteLink to="/topics">Topics</ActiveRouteLink>
       <hr/>
-      <Route exact path="/" component={Home}/>
-      <Route path="/about" component={About}/>
-      <Route path="/topics" component={Topics}/>
+      <Route exact path="/" breadcrumbName="Home" component={Home}/>
+      <Route path="/about" breadcrumbName="About" component={About}/>
+      <Route path="/topics" breadcrumbName="Topics" component={Topics}/>
     </div>
   </Router>
 )
