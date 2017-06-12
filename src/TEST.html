@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  const routes = [
+    {
+      path: '/',
+      exact: true,
+      component: 'Dashboard'
+    },
+    { path: '/dashboard',
+      component: 'Dashboard'
+    },
+    { path: '/video',
+      component: 'Videos',
+    },
+    { path: '/videoadd',
+      component: 'VideoAdd',
+    },
+    {
+      path: '/videoList',
+      component: 'VideoList',
+      exact: true,
+      activeMenu: () => 'video-list',
+      parentPath: '/'
+    },
+    {
+      path: '/crawler',
+      exact: true,
+      component: 'Review',
+      activeMenu: () => 'crawler',
+      parentPath: '/'
+    },
+    {
+      path: '/crawler/crawlerDetail/:id',
+      component: 'Detail',
+      parentPath: '/crawler'
+    },
+    {
+      path: '/addCrawler/:id',
+      component: 'AddCrawler',
+    },
+    {
+      path: '/videoList/VideoDetail/:id',
+      exact: true,
+      component: 'VideoDetail',
+      parentPath: '/videoList'
+    },
+    {
+      path: '/videoList/VideoDetail/:id/addCrawler',
+      component: 'AddCrawler',
+      parentPath: '/videoList/VideoDetail/:id'
+    },
+    {
+      path: '/videoSubDetail/:parentVideoId',
+      component: 'VideoSubDetail',
+    },
+    {
+      path: '/addLive',
+      component: 'AddLive',
+    },
+    {
+      path: '/liveDetail/:id',
+      component: 'LiveDetail',
+    },
+    { path: '/label',
+      component: 'Label',
+      exact: true,
+      activeMenu: () => 'label-list',
+    },
+    {
+      path: '/label/recommend/:id',
+      component: 'Recommend',
+    },
+    { path: '/tvList',
+      component: 'TvList',
+    },
+    { path: '/livedetail',
+      component: 'App',
+    },
+    { path: '/liveList',
+      component: 'LiveList',
+      activeMenu: () => 'live-list',
+    },
+    {
+      path: '/addlive',
+      component: 'AddLive'
+    },
+    {
+      path: '/UpdateRemind/:id',
+      component: 'UpdateRemind',
+      activeMenu: (match) => `remind-${match.match.params.id}`
+    },
+    { path: '/channelApp',
+      component: 'ChannelApp',
+      activeMenu: () => 'channel-list'
+    },
+    {
+      path: '/detail',
+      component: 'Detail',
+    },
+    {
+      path: '/upload',
+      component: 'Upload',
+    }
+  ]
+
+    const resolvePath = ( path, resolveRoutes ) => {
+        let route = routes.find( route => {
+          return route.path === path
+        })
+      let parentPath = route.parentPath
+      resolveRoutes.unshift(route)
+      if(parentPath){
+        return resolvePath(parentPath,resolveRoutes)
+      }
+
+      return resolveRoutes
+    }
+  console.log(resolvePath('/videoList/VideoDetail/:id/addCrawler', []))
+    //递归，找到route；找到route的父亲
+</script>
+</body>
+</html>
