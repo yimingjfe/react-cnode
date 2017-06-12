@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-// import BasicExample from './BasicExample'
-import CustomLinkExample from './CustomLinkExample'
+
+import TestFlip from './testFilp'
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <CustomLinkExample />
+        <TestFlip />
       </div>
     );
   }
