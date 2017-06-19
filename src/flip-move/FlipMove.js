@@ -17,13 +17,80 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-import { whichTransitionEvent } from './helpers.js';
+import { whichTransitionEvent, convertToInt } from './helpers.js';
 import propConverter            from './prop-converter';
 
 const transitionEnd = whichTransitionEvent();
 
 
-@propConverter
+function WrapComponent(ComposedComponent) {
+  return class Converter extends Component {
+    convertProps(props) {
+      // Create a non-immutable working copy
+      let workingProps = { ...props };
+
+      // Do string-to-int conversion for all timing-related props
+      const timingPropNames = [ 'duration', 'delay', 'staggerDurationBy', 'staggerDelayBy' ];
+
+      timingPropNames.forEach(
+        prop => workingProps[prop] = convertToInt(workingProps[prop], prop)
+      );
+
+      // Convert the children to a React.Children array.
+      // This is to ensure we're always working with an array, and not
+      // an only child. There's some weirdness with this.
+      // See: https://github.com/facebook/react/pull/3650/files
+      workingProps.children = React.Children.toArray(this.props.children);
+
+      return workingProps;
+    }
+
+    render() {
+      return (
+        <ComposedComponent {...this.convertProps(this.props)} />
+      );
+    }
+
+    static propTypes = {
+      children:           PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object
+      ]).isRequired,
+      easing:             PropTypes.string,
+      duration:           PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]),
+      delay:              PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]),
+      staggerDurationBy:  PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]),
+      staggerDelayBy:     PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]),
+      onStart:            PropTypes.func,
+      onFinish:           PropTypes.func,
+      className:          PropTypes.string,
+      typeName:           PropTypes.string
+    };
+
+    static defaultProps = {
+      easing:             'ease-in-out',
+      duration:           350,
+      delay:              0,
+      staggerDurationBy:  0,
+      staggerDelayBy:     0,
+      typeName:           'div'
+    };
+  }
+}
+
+
 class FlipMove extends Component {
   componentWillReceiveProps() {
     // Get the bounding boxes of all currently-rendered, keyed children.
@@ -143,6 +210,6 @@ class FlipMove extends Component {
   }
 }
 
+const FlipComponent = WrapComponent(FlipMove)
 
-
-export default FlipMove;
+export default FlipComponent;

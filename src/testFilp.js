@@ -2,7 +2,8 @@
  * Created by yiming on 2017/6/12.
  */
 import React,{Component} from 'react'
-import FlipMove from './flip-move/FlipMove'
+// import FlipMove from './flip-move/FlipMove'
+import FlipMove from 'react-flip-move'
 
 class List extends Component{
   constructor(props){
@@ -17,14 +18,14 @@ class List extends Component{
     }
   }
   deleteItem(index){
-    let list = this.state.list;
+    let list = this.state.list.slice();
     list.splice(index, 1)
     this.setState({list})
   }
   renderList(){
     const list = this.state.list
     return list.map( (item, index) => (
-      <li key={index} onClick={this.deleteItem.bind(this, index)}>{item}</li>
+      <li key={index} style={{height:'40px'}} onClick={this.deleteItem.bind(this, index)}>{item}</li>
     ))
   }
   render(){
