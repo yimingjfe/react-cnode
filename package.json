@@ -8,7 +8,8 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-flip-move": "^2.9.14",
-    "react-router-dom": "^4.1.1"
+    "react-router-dom": "^4.1.1",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-plugin-transform-decorators": "^6.24.1",
