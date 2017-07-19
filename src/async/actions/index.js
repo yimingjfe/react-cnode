@@ -20,10 +20,28 @@ export const requestPosts = makeActionCreator(REQUEST_POSTS, 'selectedReddit')
 //dispatch fetchPostsIfNeeded是一个函数有什么用
 //当 action 创建函数返回函数时，这个函数会被 Redux Thunk middleware 执行。这个函数并不需要保持纯净
 export const fetchPostsIfNeeded = reddit => ( dispatch, getState ) => {
+  if(shouldFetchPosts(getState(), reddit)){
+    //竟然可以这样
+    dispatch(fetchPosts(reddit))
+  }
+}
+
+const shouldFetchPosts = (state, reddit) => {
+  const posts = state.postsBySubreddit[reddit]
+  if(!posts){
+    return true
+  }
+  if(!posts.isFetching){
+    return false
+  }
+  return posts.didInvalidate
+}
+
+const fetchPosts = reddit => ( dispatch, getState ) => {
   dispatch(requestPosts)
-  return fetch('https://www.reddit.com/r/${reddit}.json')
-    .then(res => res.json())
-    .then(json => dispatch(receivePosts(reddit, json)))
+   return fetch('https://www.reddit.com/r/${reddit}.json')
+       .then(res => res.json())
+       .then(json => dispatch(receivePosts(reddit, json)))
 }
 
 

@@ -39,14 +39,23 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { selectedReddit, postsByReddit } = state
+  const { selectedReddit, postsBySubreddit } = state
   const {
     isFetching,
     lastUpdated,
     items: posts
-  } = postsByReddit[selectedReddit]
+  } = postsBySubreddit[selectedReddit] || {
+    isFetching: true,
+    items: []
+  }
+  return {
+    selectedReddit,
+    posts,
+    isFetching,
+    lastUpdated
+  }
 }
 
 
-export default connect()(App)
+export default connect(mapStateToProps)(App)
 

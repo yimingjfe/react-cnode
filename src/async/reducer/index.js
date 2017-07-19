@@ -16,11 +16,7 @@ const selectedReddit = createReducers('reactjs', handlers)
 //reducer的减少模板代码并不可行
 //多个action type对应一个handler的情况没有处理
 //深层嵌套的对象属性无法处理
-const postsBySubreddit = (state = {
-  isFetching: false,
-  didInvalidate: false,
-  items: []
-}, action) => {
+const postsBySubreddit = (state = {}, action) => {
   switch(action.type){
     case REQUEST_POSTS:
     case RECEIVE_POSTS:
@@ -33,7 +29,11 @@ const postsBySubreddit = (state = {
   }
 }
 
-const posts = (state, action) => {
+const posts = (state = {
+  isFetching: false,
+  didInvalidate: false,
+  items: []
+}, action) => {
   switch (action.type) {
     case REQUEST_POSTS:
       Object.assign({}, state, {
